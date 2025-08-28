@@ -1,5 +1,6 @@
 """
 三菱電機 求人レコメンドシステム - Streamlit版
+最終修正版 - 2025/08/28 16:30
 """
 
 import streamlit as st
@@ -7,18 +8,30 @@ import sys
 import os
 from typing import Dict, List
 
+# デバッグ: 現在の作業ディレクトリとファイル確認
+current_dir = os.path.dirname(os.path.abspath(__file__))
+st.write(f"🔍 現在のディレクトリ: {current_dir}")
+st.write(f"🔍 Pythonファイル一覧: {[f for f in os.listdir(current_dir) if f.endswith('.py')]}")
+
 # 直接インポート（シンプルな方法）
 try:
+    # インポート前にファイル存在確認
+    extractor_file = os.path.join(current_dir, 'simple_html_extractor.py')
+    ranker_file = os.path.join(current_dir, 'llm_ranker.py')
+    
+    st.write(f"🔍 simple_html_extractor.py存在: {os.path.exists(extractor_file)}")
+    st.write(f"🔍 llm_ranker.py存在: {os.path.exists(ranker_file)}")
+    
     from simple_html_extractor import SimpleJobExtractor
     from llm_ranker import LLMJobRanker
     st.success("✅ モジュールのインポートが成功しました！")
     
 except ImportError as e:
-    st.error(f"モジュールのインポートエラー: {e}")
-    st.write("現在のディレクトリのファイル一覧:")
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    files = os.listdir(current_dir)
-    st.write([f for f in files if f.endswith('.py')])
+    st.error(f"❌ モジュールのインポートエラー: {e}")
+    st.write(f"Python path: {sys.path}")
+    st.stop()
+except Exception as e:
+    st.error(f"❌ 予期しないエラー: {e}")
     st.stop()
 
 # ページ設定
