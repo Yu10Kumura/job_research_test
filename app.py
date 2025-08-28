@@ -7,17 +7,13 @@ import sys
 import os
 from typing import Dict, List
 
-# パスを追加
-current_dir = os.path.dirname(os.path.abspath(__file__))
-src_dir = os.path.join(current_dir, 'src')
-sys.path.append(src_dir)
-
 # 必要なモジュールをインポート
 try:
-    from extractors.simple_html_extractor import SimpleJobExtractor
-    from ranker.llm_ranker import LLMJobRanker
+    from src.extractors.simple_html_extractor import SimpleJobExtractor
+    from src.ranker.llm_ranker import LLMJobRanker
 except ImportError as e:
     st.error(f"モジュールのインポートエラー: {e}")
+    st.stop()
     st.stop()
 
 # ページ設定
