@@ -11,38 +11,26 @@ from dotenv import load_dotenv
 
 class LLMJobRanker:
     def __init__(self):
-        # Streamlit Cloudの場合はst.secretsから、ローカルの場合はconfig.envから読み込み
+        # config.envから環境変数を読み込み（Streamlit Cloud対応）
         api_key = None
         
-        # まずStreamlit secretsを試行
+        # Streamlit Cloudの場合はsecretsから取得を試行
         try:
             import streamlit as st
             api_key = st.secrets.get("OPENAI_API_KEY")
-            print("🔑 Streamlit secretsからAPI keyを取得")
-        except ImportError:
-            print("📝 streamlitが利用不可 - 環境変数を使用")
-            pass
-        except Exception as e:
-            print(f"⚠️ st.secrets取得エラー: {e}")
+        except:
             pass
             
-        # Streamlit secretsで取得できなかった場合、環境変数を試行
+        # 環境変数からの取得
         if not api_key:
             load_dotenv('config.env')
             api_key = os.getenv('OPENAI_API_KEY')
-            if api_key:
-                print("🔑 環境変数からAPI keyを取得")
         
         if not api_key:
-            raise ValueError("OPENAI_API_KEYが設定されていません。config.envファイルまたはstreamlitのsecretsを確認してください。")
+            raise ValueError("OPENAI_API_KEYが設定されていません。config.envファイルを確認してください。")
         
-        # OpenAIクライアントを最もシンプルな形で初期化
-        try:
-            self.client = OpenAI(api_key=api_key)
-            print("🤖 GPT-4o-mini求人ランカーを初期化しました（v2.0）")
-        except Exception as e:
-            print(f"❌ OpenAIクライアント初期化エラー: {e}")
-            raise
+        self.client = OpenAI(api_key=api_key)
+        print("🤖 GPT-4o-mini求人ランカーを初期化しました")
     
     def rank_jobs(self, profile: Dict[str, str], jobs: List[Dict[str, str]]) -> Dict[str, Any]:
         """
