@@ -11,20 +11,9 @@ from dotenv import load_dotenv
 
 class LLMJobRanker:
     def __init__(self):
-        # Streamlit Cloudの場合はst.secretsから、ローカルの場合はconfig.envから読み込み
-        api_key = None
-        
-        # まずStreamlit secretsを試行
-        try:
-            import streamlit as st
-            api_key = st.secrets.get("OPENAI_API_KEY")
-        except:
-            pass
-            
-        # Streamlit secretsで取得できなかった場合、環境変数を試行
-        if not api_key:
-            load_dotenv('config.env')
-            api_key = os.getenv('OPENAI_API_KEY')
+        # config.envから環境変数を読み込み
+        load_dotenv('config.env')
+        api_key = os.getenv('OPENAI_API_KEY')
         
         if not api_key:
             raise ValueError("OPENAI_API_KEYが設定されていません。config.envファイルを確認してください。")
