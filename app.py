@@ -13,7 +13,7 @@ st.set_page_config(
     page_title="三菱電機 求人レコメンドシステム",
     page_icon="🚀",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="collapsed"  # スマホでのファーストビューを改善
 )
 
 # デバッグ: 現在の作業ディレクトリとファイル確認
@@ -150,10 +150,47 @@ def main():
     # ヘッダー
     st.title("🚀 三菱電機 求人レコメンドシステム")
     st.markdown("AI powered job matching system using GPT-4o-mini | v2.0 - 2025/08/28 21:00")
+    
+    # スマホ対応のカスタムCSS
+    st.markdown("""
+    <style>
+        /* スマホ（768px以下）でのサイドバー調整 */
+        @media (max-width: 768px) {
+            .stSidebar {
+                display: none; /* 初期状態では非表示 */
+            }
+            .stSidebar.is-open {
+                display: block; /* 開いた時のみ表示 */
+            }
+            /* メインコンテンツの幅を最大化 */
+            .main .block-container {
+                max-width: 100%;
+                padding: 1rem;
+            }
+            /* タイトルのフォントサイズを調整 */
+            h1 {
+                font-size: 1.5rem !important;
+            }
+        }
+        
+        /* サイドバートグルボタンを目立たせる */
+        .stSidebar .stButton button {
+            width: 100%;
+            background-color: #ff4b4b;
+            color: white;
+            border: none;
+            margin-bottom: 1rem;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+    
     st.markdown("---")
     
     # サイドバー
     with st.sidebar:
+        # スマホユーザー向けの案内
+        st.info("📱 スマホの方へ: このサイドバーはスワイプまたは「＞」ボタンで開閉できます")
+        
         st.markdown("### � システム説明")
         st.markdown("このシステムは三菱電機の採用ページから求人を抽出し、AIがあなたに最適な求人を提案します。")
         
