@@ -30,7 +30,7 @@ class LLMJobRanker:
             raise ValueError("OPENAI_API_KEYが設定されていません。config.envファイルを確認してください。")
         
         self.client = OpenAI(api_key=api_key)
-        print("🤖 GPT-4o-mini求人ランカーを初期化しました")
+        print("🤖 GPT-4o-mini求人ランカーを初期化しました（v2.0）")
     
     def rank_jobs(self, profile: Dict[str, str], jobs: List[Dict[str, str]]) -> Dict[str, Any]:
         """

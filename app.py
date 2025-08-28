@@ -149,7 +149,7 @@ def main():
     
     # ヘッダー
     st.title("🚀 三菱電機 求人レコメンドシステム")
-    st.markdown("AI powered job matching system using GPT-4o-mini")
+    st.markdown("AI powered job matching system using GPT-4o-mini | v2.0 - 2025/08/28 21:00")
     st.markdown("---")
     
     # サイドバー
