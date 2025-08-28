@@ -29,7 +29,25 @@ class LLMJobRanker:
         if not api_key:
             raise ValueError("OPENAI_API_KEYが設定されていません。config.envファイルを確認してください。")
         
-        self.client = OpenAI(api_key=api_key)
+        # デバッグ情報を出力
+        print(f"🔍 OpenAI APIキー取得成功: {api_key[:10]}...")
+        print(f"🔍 openaiライブラリのバージョン確認中...")
+        import openai
+        print(f"🔍 openai.__version__ = {openai.__version__}")
+        
+        try:
+            # 最もシンプルな初期化を試行
+            print("🔍 OpenAIクライアント初期化中...")
+            self.client = OpenAI(api_key=api_key)
+            print("✅ OpenAIクライアント初期化成功")
+        except Exception as e:
+            print(f"❌ OpenAIクライアント初期化エラー詳細:")
+            print(f"   エラータイプ: {type(e).__name__}")
+            print(f"   エラーメッセージ: {str(e)}")
+            print(f"   使用パラメータ: api_key='{api_key[:10]}...'")
+            import traceback
+            traceback.print_exc()
+            raise
         print("🤖 GPT-4o-mini求人ランカーを初期化しました")
     
     def rank_jobs(self, profile: Dict[str, str], jobs: List[Dict[str, str]]) -> Dict[str, Any]:
