@@ -8,10 +8,18 @@ import sys
 import os
 from typing import Dict, List
 
+# ページ設定 - 最初に実行する必要がある
+st.set_page_config(
+    page_title="三菱電機 求人レコメンドシステム",
+    page_icon="🚀",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
 # デバッグ: 現在の作業ディレクトリとファイル確認
 current_dir = os.path.dirname(os.path.abspath(__file__))
-st.write(f"🔍 現在のディレクトリ: {current_dir}")
-st.write(f"🔍 Pythonファイル一覧: {[f for f in os.listdir(current_dir) if f.endswith('.py')]}")
+# st.write(f"🔍 現在のディレクトリ: {current_dir}")
+# st.write(f"🔍 Pythonファイル一覧: {[f for f in os.listdir(current_dir) if f.endswith('.py')]}")
 
 # 直接インポート（シンプルな方法）
 try:
@@ -19,12 +27,14 @@ try:
     extractor_file = os.path.join(current_dir, 'simple_html_extractor.py')
     ranker_file = os.path.join(current_dir, 'llm_ranker.py')
     
-    st.write(f"🔍 simple_html_extractor.py存在: {os.path.exists(extractor_file)}")
-    st.write(f"🔍 llm_ranker.py存在: {os.path.exists(ranker_file)}")
+    # st.write(f"🔍 simple_html_extractor.py存在: {os.path.exists(extractor_file)}")
+    # st.write(f"🔍 llm_ranker.py存在: {os.path.exists(ranker_file)}")
     
     from simple_html_extractor import SimpleJobExtractor
     from llm_ranker import LLMJobRanker
-    st.success("✅ モジュールのインポートが成功しました！")
+    
+    # インポート成功メッセージ（デバッグ用にコメントアウト）
+    # st.success("✅ モジュールのインポートが成功しました！")
     
 except ImportError as e:
     st.error(f"❌ モジュールのインポートエラー: {e}")
@@ -33,14 +43,6 @@ except ImportError as e:
 except Exception as e:
     st.error(f"❌ 予期しないエラー: {e}")
     st.stop()
-
-# ページ設定
-st.set_page_config(
-    page_title="三菱電機 求人レコメンドシステム",
-    page_icon="🚀",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
 
 # セッション状態の初期化
 if 'jobs_loaded' not in st.session_state:
