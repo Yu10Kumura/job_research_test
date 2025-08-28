@@ -84,15 +84,8 @@ def get_recommendations(profile: Dict[str, str]):
     try:
         llm_ranker = LLMJobRanker()
         
-        # デバッグ情報を表示
-        st.info(f"🔍 分析対象求人数: {len(st.session_state.all_jobs)}件")
-        st.info(f"🔍 入力プロフィール: {profile}")
-        
         with st.spinner("🤖 AIがあなたに最適な求人を分析中..."):
             result = llm_ranker.rank_jobs(profile, st.session_state.all_jobs)
-            
-            # デバッグ情報：AIの応答を表示
-            st.info(f"🔍 AI分析結果: {len(result.get('recommendations', []))}件の推奨求人")
             
             return result
     except Exception as e:
