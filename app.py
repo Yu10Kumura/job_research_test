@@ -7,41 +7,18 @@ import sys
 import os
 from typing import Dict, List
 
-# 現在のディレクトリとsrcディレクトリをパスに追加
-current_dir = os.path.dirname(os.path.abspath(__file__))
-src_dir = os.path.join(current_dir, 'src')
-sys.path.insert(0, current_dir)
-sys.path.insert(0, src_dir)
-
-# 必要なモジュールをインポート
+# 直接インポート（シンプルな方法）
 try:
-    # 複数の方法を試行
-    try:
-        from src.extractors.simple_html_extractor import SimpleJobExtractor
-        from src.ranker.llm_ranker import LLMJobRanker
-    except ImportError:
-        # 直接インポートを試行
-        sys.path.append(os.path.join(src_dir, 'extractors'))
-        sys.path.append(os.path.join(src_dir, 'ranker'))
-        from simple_html_extractor import SimpleJobExtractor
-        from llm_ranker import LLMJobRanker
-    
+    from simple_html_extractor import SimpleJobExtractor
+    from llm_ranker import LLMJobRanker
     st.success("✅ モジュールのインポートが成功しました！")
     
 except ImportError as e:
     st.error(f"モジュールのインポートエラー: {e}")
-    st.write("デバッグ情報:")
-    st.write(f"Current directory: {current_dir}")
-    st.write(f"Python path: {sys.path}")
-    st.write(f"Files in current directory: {os.listdir(current_dir)}")
-    if os.path.exists(src_dir):
-        st.write(f"Files in src directory: {os.listdir(src_dir)}")
-        extractors_dir = os.path.join(src_dir, 'extractors')
-        ranker_dir = os.path.join(src_dir, 'ranker')
-        if os.path.exists(extractors_dir):
-            st.write(f"Files in extractors directory: {os.listdir(extractors_dir)}")
-        if os.path.exists(ranker_dir):
-            st.write(f"Files in ranker directory: {os.listdir(ranker_dir)}")
+    st.write("現在のディレクトリのファイル一覧:")
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    files = os.listdir(current_dir)
+    st.write([f for f in files if f.endswith('.py')])
     st.stop()
 
 # ページ設定
